@@ -18,11 +18,8 @@ DEFAULT_HEADERS = {
 def fetch_html(url):
     response = requests.get(url, headers=DEFAULT_HEADERS, timeout=20)
     if response.status_code == 403 and cloudscraper is not None:
-        scraper = cloudscraper.create_scraper(
-            browser={"custom": DEFAULT_HEADERS},
-            delay=1,
-        )
-        response = scraper.get(url, timeout=20)
+        scraper = cloudscraper.create_scraper()
+        response = scraper.get(url, headers=DEFAULT_HEADERS, timeout=20)
 
     response.raise_for_status()
     return response.text
